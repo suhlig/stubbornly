@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    stubbornly (0.1.0)
+    stubbornly (0.2.0)
       null-logger
 
 GEM
