@@ -3,15 +3,17 @@
 require 'pathname'
 require 'English'
 
+# rubocop:disable RSpec/DescribeClass
 RSpec.describe 'http_status' do
-  subject { 'examples/http_status' }
+  subject(:example) { 'examples/http_status' }
 
   it 'exists' do
-    expect(Pathname(subject)).to exist
+    expect(Pathname(example)).to exist
   end
 
   it 'executes successfully' do
-    system(subject)
-    expect($CHILD_STATUS.success?).to be_truthy, "when evaluating example #{subject}"
+    system(example)
+    expect($CHILD_STATUS.success?).to be_truthy, "when evaluating example #{example}"
   end
 end
+# rubocop:enable RSpec/DescribeClass

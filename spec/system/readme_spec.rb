@@ -2,11 +2,11 @@
 
 require 'readme_parser'
 
+# rubocop:disable RSpec/DescribeClass
 RSpec.describe 'README.markdown' do
   subject(:examples) { ReadmeParser.new('README.markdown').fenced_code_blocks }
 
   it 'there is at least one example' do
-    expect(examples).to be
     expect(examples.size).to be > 0
   end
 
@@ -22,3 +22,4 @@ RSpec.describe 'README.markdown' do
     end
   end
 end
+# rubocop:enable RSpec/DescribeClass
