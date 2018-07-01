@@ -17,5 +17,6 @@ guard :rspec, cmd: 'bundle exec rspec' do
   watch(rspec.spec_helper) { rspec.spec_dir }
   watch(rspec.spec_files)
   watch(%r{^lib/.*/(.+)\.rb$}) { |m| "spec/unit/#{m[1]}_spec.rb" }
+  watch('README.markdown') { |_m| 'spec/system/examples_spec.rb' }
   dsl.watch_spec_files_for(dsl.ruby.lib_files)
 end

@@ -12,4 +12,8 @@ RSpec.describe Stubbornly do
 
     expect(result).to eq('success')
   end
+
+  it "returns the block's result"
+
+  it "raises the block's error"
 end

@@ -2,20 +2,20 @@
 
 [![Build Status](https://travis-ci.org/suhlig/stubbornly.svg?branch=master)](https://travis-ci.org/suhlig/stubbornly)
 
-Stubbornly retries a given block until the maximum number of attempts or timeout has been reached.
+Stubbornly retries a given block until the maximum number of attempts or a timeout has been reached.
 
-## Example
+## Examples
+
+### Timeout
 
 ```ruby
 require 'stubbornly'
 require 'http'
-require 'logger'
 
 class Checker
   def initialize(url)
     @url = url
-    @logger = Logger.new(STDOUT)
-    @stubbornly = Stubbornly.new(logger: @logger)
+    @stubbornly = Stubbornly.new
   end
 
   def up?
@@ -25,10 +25,37 @@ class Checker
   end
 end
 
-if Checker.new('http://localhost:8765').up?
-  puts "Website is up"
-else
-  warn "We are DOWN!"
+begin
+  Checker.new('http://localhost:8765').up?
+rescue => e
+  warn "Error: #{e.message}"
+end
+```
+
+### Maximum number of attempts
+
+```ruby
+require 'stubbornly'
+require 'http'
+
+class Checker
+  def initialize(url)
+    @url = url
+    @stubbornly = Stubbornly.new
+  end
+
+  def up?
+    @stubbornly.retry(attempts: 3) do
+      response = HTTP.get(@url)
+      puts "The site at #{@url} is up 👍"
+    end
+  end
+end
+
+begin
+  Checker.new('http://localhost:8765').up?
+rescue => e
+  warn "Error: #{e.message}"
 end
 ```
 

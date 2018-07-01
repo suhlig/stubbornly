@@ -1,0 +1,41 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require 'stubbornly'
+require 'http'
+require 'logger'
+
+#
+# Checks a URL
+#
+class Checker
+  def initialize(url)
+    @url = url
+    @logger = Logger.new(STDERR, progname: self.class)
+    @stubbornly = Stubbornly.new(logger: Logger.new(STDERR, progname: Stubbornly))
+  end
+
+  #
+  # Return the status code of the given URL.
+  # Retry if failed, but
+  # - not more often than specified
+  # - only within the given timeout.
+  #
+  def status
+    @logger.info "Checking status of #{@url}"
+    @stubbornly.retry(timeout: 10, attempts: 4) do
+      HTTP.get(@url).code.tap do |result|
+        @logger.info "Result is #{result}"
+      end
+    end
+  end
+end
+
+url = ARGV[0] || 'http://example.com'
+
+begin
+  puts Checker.new(url).status
+rescue StandardError => e
+  warn "Error: #{e.message}"
+  exit 1
+end
