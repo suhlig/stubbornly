@@ -1,5 +1,7 @@
 # Stubbornly
 
+[![Build Status](https://travis-ci.org/suhlig/stubbornly.svg?branch=master)](https://travis-ci.org/suhlig/stubbornly)
+
 Stubbornly retries a given block until the maximum number of attempts or timeout has been reached.
 
 ## Example
