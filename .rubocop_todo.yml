@@ -32,3 +32,7 @@ RSpec/NestedGroups:
 Security/Eval:
   Exclude:
     - 'spec/system/readme_spec.rb'
+
+Style/MutableConstant:
+  Exclude:
+    - 'lib/stubbornly/version.rb'
