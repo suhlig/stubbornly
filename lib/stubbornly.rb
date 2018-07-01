@@ -1,4 +1,7 @@
+# frozen_string_literal: true
+
 require 'null_logger'
+require 'English'
 
 class Stubbornly
   def initialize(logger: NullLogger.new)
@@ -14,13 +17,13 @@ class Stubbornly
 
     begin
       @logger.info "Attempt ##{attempt}"
-      yield.tap {
+      yield.tap do
         @logger.info "Success after #{elapsed_since(start)}s and #{attempt} attempts"
-      }
-    rescue
+      end
+    rescue StandardError
       attempt += 1
       retry_after = 2**attempt - 1
-      @logger.warn "#{$!.message}. Trying again in #{retry_after}s."
+      @logger.warn "#{$ERROR_INFO.message}. Trying again in #{retry_after}s."
 
       if attempt >= attempts
         @logger.error "Maximum number of attempts (#{attempt}) reached"

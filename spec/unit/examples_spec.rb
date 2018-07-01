@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 require 'readme_parser'
 
 RSpec.describe 'README.markdown' do
   subject(:examples) { ReadmeParser.new('README.markdown').fenced_code_blocks }
 
-  it "has at least one example" do
+  it 'has at least one example' do
     expect(examples).to be
     expect(examples.size).to be > 0
   end
@@ -16,7 +18,7 @@ RSpec.describe 'README.markdown' do
     end
 
     it 'can be evaluated' do
-      expect{ eval(example) }.not_to raise_error
+      expect { eval(example) }.not_to raise_error
     end
   end
 end
