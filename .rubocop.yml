@@ -1,23 +1,11 @@
-AllCops:
-  TargetRubyVersion: 2.5.1
-  Include:
-    - '**/Gemfile'
-    - '**/Rakefile'
-    - '**/config.ru'
-    - '**/*.rake'
-  Exclude:
-    - vendor/**/*
-    - db/migrations/**/*
+inherit_from: .rubocop_todo.yml
 
+AllCops:
   DisplayCopNames:
     Enabled: true
 
   DisplayStyleGuide:
     Enabled: true
-
-Naming/FileName:
-  Exclude:
-  - Guardfile
 
 Metrics/BlockLength:
   Exclude:

@@ -1,8 +1,6 @@
 require 'null_logger'
 
 class Stubbornly
-  VERSION = '0.1.0'
-
   def initialize(logger: NullLogger.new)
     @logger = logger
   end
