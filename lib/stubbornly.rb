@@ -4,11 +4,37 @@ require 'null_logger'
 require 'English'
 
 class Stubbornly
-  def initialize(logger: NullLogger.new)
+  #
+  # Constructs a new `Stubbornly` instance.
+  #
+  # If a block is passed, it will be called to calculate the sleep time (in
+  # seconds) before the next attempt is made. The attempt counter is passed
+  # as a block argument.
+  #
+  # This is useful to determine the backoff characteristics. The result of the
+  # block will be the sleep time in seconds. For instance, the following code
+  # would implement an exponential backoff with retries after 1, 3, 7, 15,
+  # 31, ... seconds:
+  #
+  #   Stubbornly.new {|attempt| 2**attempt - 1 }
+  #
+  # The default backoff is 1 (constant), i.e. the attempts are equidistant at 1s.
+  #
+  def initialize(logger: NullLogger.new, &block)
     @logger = logger
+    @backoff = block || proc { 1 }
   end
 
-  def retry(timeout: Float::INFINITY, attempts: Float::INFINITY)
+  #
+  # Calls the given block, rescuing its errors, and retries until either the
+  # given timeout or the maximum number of attempts was exceeded.
+  #
+  # When an attempt raises an error, this method will sleep before it retries.
+  # The number of seconds to sleep is determined by the block passed to {#initialize}.
+  #
+  # If the block succeeds, its value is returned.
+  #
+  def retry(timeout: Float::INFINITY, attempts: Float::INFINITY, &block)
     @logger.debug("Attempting not more than #{attempts} times") unless attempts.infinite?
     @logger.debug("Will time out after #{timeout}s") unless timeout.infinite?
 
@@ -17,8 +43,11 @@ class Stubbornly
 
     begin
       @logger.info "Attempt ##{attempt} #{after_elapsed_since(start)}"
-      yield.tap do
-        @logger.info "Success #{after_elapsed_since(start)} and #{attempt} attempts"
+
+      if block
+        yield(attempt, elapsed_since(start)).tap do
+          @logger.info "Success #{after_elapsed_since(start)} and #{attempt} attempts"
+        end
       end
     rescue StandardError => error
       @logger.warn error.message
@@ -36,7 +65,7 @@ class Stubbornly
       end
 
       attempt += 1
-      retry_after = 2**attempt - 1
+      retry_after = @backoff.call(attempt)
 
       @logger.warn "Trying again in #{retry_after}s."
       sleep(retry_after)

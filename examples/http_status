@@ -31,7 +31,7 @@ class Checker
   end
 end
 
-url = ARGV[0] || 'http://example.com'
+url = ARGV.shift || 'http://example.com'
 
 begin
   puts Checker.new(url).status
