@@ -2,7 +2,9 @@
 
 [![Build Status](https://travis-ci.org/suhlig/stubbornly.svg?branch=master)](https://travis-ci.org/suhlig/stubbornly)
 
-Stubbornly retries a given block until the maximum number of attempts or a timeout has been reached.
+`Stubbornly` retries a given block until the maximum number of attempts or a timeout has been reached.
+
+The timeout is enforced right *before* an attempt, but if that blocks longer than the given `timeout` it will not be interrupted. Instead of using the [dangerous `Timeout` module](http://www.mikeperham.com/2015/05/08/timeout-rubys-most-dangerous-api/),  use a library that fails fast and retry multiple times using `Stubbornly`.
 
 ## Examples
 
