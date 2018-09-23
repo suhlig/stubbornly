@@ -13,6 +13,7 @@ class Limiter
 
   def limit(number)
     raise BeyondLimit.new(@limit, number) if number > @limit
+
     number
   end
 end
