@@ -49,8 +49,8 @@ class Stubbornly
           @logger.info "Success #{after_elapsed_since(start)} and #{attempt} attempts"
         end
       end
-    rescue StandardError => error
-      @logger.warn error.message
+    rescue StandardError => e
+      @logger.warn e.message
 
       if attempt >= attempts
         @logger.error "Maximum number of attempts (#{attempts}) reached (#{after_elapsed_since(start)})"
