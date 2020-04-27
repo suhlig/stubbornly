@@ -58,7 +58,7 @@ GEM
     notiffany (0.1.3)
       nenv (~> 0.1)
       shellany (~> 0.0)
-    null-logger (0.1.6)
+    null-logger (0.1.7)
     parallel (1.19.1)
     parser (2.7.1.1)
       ast (~> 2.4.0)
