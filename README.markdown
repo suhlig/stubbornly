@@ -1,6 +1,6 @@
 # Stubbornly
 
-[![Build Status](https://travis-ci.org/suhlig/stubbornly.svg?branch=master)](https://travis-ci.org/suhlig/stubbornly)
+[![Build Status](https://app.travis-ci.com/suhlig/stubbornly.svg?branch=master)](https://app.travis-ci.com/suhlig/stubbornly)
 
 `Stubbornly` retries a given block until the maximum number of attempts or a timeout has been reached.
 
